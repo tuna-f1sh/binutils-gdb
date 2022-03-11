@@ -1,3 +1,8 @@
+2022-03-09  John Whittington  <git@jbrengineering.co.uk>
+
+	* remote.c (remote_add_thread): Switch to thread before thread operations if
+	called with silent_p.
+
 2021-07-03  Nick Clifton  <nickc@redhat.com>
 
 	* 2.37 release branch created.

@@ -2545,12 +2545,16 @@ remote_target::remote_add_thread (ptid_t ptid, bool running, bool executing,
   else
     thread = add_thread (this, ptid);
 
+  /* switch to thread now if bare-metal target because otherwise it will assert as null */
+  if (silent_p)
+    switch_to_thread (thread);
+
   /* We start by assuming threads are resumed.  That state then gets updated
      when we process a matching stop reply.  */
   get_remote_thread_info (thread)->set_resumed ();
 
-  set_executing (this, ptid, executing);
-  set_running (this, ptid, running);
+  set_executing (this, thread->ptid, executing);
+  set_running (this, thread->ptid, running);
 
   return thread;
 }
@@ -6055,9 +6059,7 @@ extended_remote_target::attach (const char *args, int from_tty)
 
       /* Add the main thread to the thread list.  We add the thread
 	 silently in this case (the final true parameter).  */
-      thread_info *thr = remote_add_thread (curr_ptid, true, true, true);
-
-      switch_to_thread (thr);
+      remote_add_thread (curr_ptid, true, true, true);
     }
 
   /* Next, if the target can specify a description, read it.  We do
