@@ -875,6 +875,9 @@ private:
   enum language m_lang;
 };
 
+/* Returns true if there is a current inferior thread. */
+extern bool has_inferior_thread (void);
+
 /* Returns a pointer into the thread_info corresponding to
    INFERIOR_PTID.  INFERIOR_PTID *must* be in the thread list.  */
 extern struct thread_info* inferior_thread (void);

@@ -79,6 +79,13 @@ is_current_thread (const thread_info *thr)
   return thr == current_thread_;
 }
 
+
+bool
+has_inferior_thread (void)
+{
+  return current_thread_ != nullptr;
+}
+
 struct thread_info*
 inferior_thread (void)
 {

@@ -2574,6 +2574,12 @@ remote_target::remote_add_thread (ptid_t ptid, bool running, bool executing,
   else
     thread = add_thread (this, ptid);
 
+  /* If there isn't already an active thread, then switch to the
+     thread we just added, so bare-metal targets don't assert the
+     current thread as null. */
+  if (!has_inferior_thread())
+    switch_to_thread(thread);
+
   /* We start by assuming threads are resumed.  That state then gets updated
      when we process a matching stop reply.  */
   get_remote_thread_info (thread)->set_resumed ();
